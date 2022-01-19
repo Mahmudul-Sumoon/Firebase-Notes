@@ -1,4 +1,4 @@
-# notes_app
+# Domain Driven Design (DDD) with Firebase
 
 ## Class 1: Authentication of email and password
 - create immutable value object class in domain/core for relying on generics to allow the value to be of any type.
