@@ -84,3 +84,5 @@ abstract class AuthFailure with _$AuthFailure {
   const factory AuthFailure.invalidEmailPassword() = InvalidEmailPassword;
 }
 ```
+
+## Class 3: Create Model for the Sign-In Form Events & State in application layer with the help of bloc.
