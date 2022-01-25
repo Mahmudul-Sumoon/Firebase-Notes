@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notes_app/domain/auth/auth_facade.dart';
-import 'package:notes_app/domain/auth/value_objects.dart';
 import 'package:notes_app/domain/auth/auth_failure.dart';
+import 'package:notes_app/domain/auth/value_objects.dart';
 
 class FirebaseAuthFacade implements IAuthFacade {
   final FirebaseAuth _firebaseAuth;
@@ -52,7 +52,7 @@ class FirebaseAuthFacade implements IAuthFacade {
       return _firebaseAuth
           .signInWithCredential(authCredential)
           .then((r) => right(unit));
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       return left(const AuthFailure.serverError());
     }
   }

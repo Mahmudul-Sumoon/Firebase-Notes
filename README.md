@@ -121,6 +121,172 @@ abstract class SignInFormState with _$SignInFormState {
       );
 }
 ```
+
+## Class 4:  Sign-In Form Logic (Bloc)
+
+>implements events of SignIn form by using bloc.
+
+```dart
+class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
+  final IAuthFacade _authFacade;
+  SignInFormBloc(this._authFacade) : super(SignInFormState.initial()) {
+    //
+    on<EmailChanged>((event, emit) async {
+      emit(
+        state.copyWith(
+          emailAddress: EmailAddress(event.email),
+          authFailureorSuccess: none(),
+        ),
+      );
+    });
+    //
+    on<PasswordChanged>((event, emit) async {
+      emit(
+        state.copyWith(
+          password: Password(event.password),
+          authFailureorSuccess: none(),
+        ),
+      );
+    });
+    //
+    on<RegisterWithEmailandPassword>((event, emit) async {
+      _performActionAuthFacadeWithEmailAndPassword(
+        _authFacade.registerWithEmailandPassword,
+        emit,
+      );
+    });
+    //
+    on<SignInWithEmailandPassword>((event, emit) async {
+      _performActionAuthFacadeWithEmailAndPassword(
+        _authFacade.registerWithEmailandPassword,
+        emit,
+      );
+    });
+    //
+    on<SignInWithGoogle>((event, emit) async {
+      emit(
+        state.copyWith(
+          isSubmitting: true,
+          authFailureorSuccess: none(),
+        ),
+      );
+      final successOrFailure = await _authFacade.signInWithGoogle();
+      emit(
+        state.copyWith(
+          isSubmitting: false,
+          authFailureorSuccess: some(successOrFailure),
+        ),
+      );
+    });
+  }
+
+// TODO(checkIn): Need to be tested at presentation layer
+  Stream<SignInFormState> _performActionAuthFacadeWithEmailAndPassword(
+    Future<Either<AuthFailure, Unit>> Function({
+      required EmailAddress emailAddress,
+      required Password password,
+    })
+        forwardedcall,
+    Emitter emit,
+  ) async* {
+    Either<AuthFailure, Unit> successOrFailure;
+    final validEmail = state.emailAddress.isValid();
+    final validPassword = state.password.isValid();
+    if (validEmail && validPassword) {
+      emit(
+        state.copyWith(
+          isSubmitting: true,
+          authFailureorSuccess: none(),
+        ),
+      );
+    } else {
+      successOrFailure = await forwardedcall(
+        emailAddress: state.emailAddress,
+        password: state.password,
+      );
+      emit(
+        state.copyWith(
+          isSubmitting: false,
+          showErrorMessage: true,
+          authFailureorSuccess: optionOf(successOrFailure),
+        ),
+      );
+    }
+  }
+}
+```
+
+
 ## Class 5: Firebase Auth Setup & Facade
 
->cecrate a project in firebase console and implementing the methods infrastructure layer
+>cecrate a project in firebase console and implementing the methods of auth facade in infrastructure layer and handle the auth failure response.
+
+>implement registration
+```dart
+  Future<Either<AuthFailure, Unit>> registerWithEmailandPassword({
+    required EmailAddress emailAddress,
+    required Password password,
+  }) async {
+    final emailAddressStr = emailAddress.getOrCrash();
+    final passwordStr = password.getOrCrash();
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+        email: emailAddressStr,
+        password: passwordStr,
+      );
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        return left(const AuthFailure.emailAlreadyInUse());
+      } else {
+        return left(const AuthFailure.serverError());
+      }
+    }
+  }
+```
+>implement signIn
+```dart
+ Future<Either<AuthFailure, Unit>> signinWithEmailandPassword({
+    required EmailAddress emailAddress,
+    required Password password,
+  }) async {
+    final emailAddressStr = emailAddress.getOrCrash();
+    final passwordStr = password.getOrCrash();
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: emailAddressStr,
+        password: passwordStr,
+      );
+      return right(unit);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        return left(const AuthFailure.invalidEmailPassword());
+      } else {
+        return left(const AuthFailure.serverError());
+      }
+    }
+  }
+```
+>implement signIn with google
+```dart
+ Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        return left(const AuthFailure.cancelByUser());
+      }
+
+      final googleAuthentication = await googleUser.authentication;
+      final authCredential = GoogleAuthProvider.credential(
+        accessToken: googleAuthentication.accessToken,
+        idToken: googleAuthentication.idToken,
+      );
+      return _firebaseAuth
+          .signInWithCredential(authCredential)
+          .then((r) => right(unit));
+    } on FirebaseAuthException {
+      return left(const AuthFailure.serverError());
+    }
+  }
+```
+
