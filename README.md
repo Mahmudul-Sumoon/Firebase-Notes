@@ -85,4 +85,42 @@ abstract class AuthFailure with _$AuthFailure {
 }
 ```
 
-## Class 3: Create Model for the Sign-In Form Events & State in application layer with the help of bloc.
+## Class 3: Modeling the Sign-In Form Events & State
+> Create Model for the Sign-In Form Events & State in application layer with the help of bloc.
+
+**define signIn events**
+```dart
+abstract class SignInFormEvent with _$SignInFormEvent {
+  const factory SignInFormEvent.emailChanged(String email) = EmailChanged;
+  const factory SignInFormEvent.passwordChanged(String password) =
+      PasswordChanged;
+  const factory SignInFormEvent.registerWithEmailandPassword() =
+      RegisterWithEmailandPassword;
+  const factory SignInFormEvent.signInWithEmailandPassword() =
+      SignInWithEmailandPassword;
+  const factory SignInFormEvent.signInWithGoogle() = SignInWithGoogle;
+}
+
+```
+**define signIn states**
+```dart
+abstract class SignInFormState with _$SignInFormState {
+  const factory SignInFormState({
+    required EmailAddress emailAddress,
+    required Password password,
+    required bool isSubmitting,
+    required bool showErrorMessage,
+    required Option<Either<AuthFailure, Unit>> authFailureorSuccess,
+  }) = _SignInFormState;
+  factory SignInFormState.initial() => SignInFormState(
+        emailAddress: EmailAddress(''),
+        password: Password(''),
+        isSubmitting: false,
+        showErrorMessage: false,
+        authFailureorSuccess: none(),
+      );
+}
+```
+## Class 5: Firebase Auth Setup & Facade
+
+>cecrate a project in firebase console and implementing the methods infrastructure layer

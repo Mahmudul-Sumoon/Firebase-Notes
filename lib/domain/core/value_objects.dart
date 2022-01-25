@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:notes_app/domain/core/errors.dart';
 
 import 'failures.dart';
 
@@ -7,6 +8,9 @@ import 'failures.dart';
 abstract class ValueObject<T> {
   const ValueObject();
   Either<ValueFailure<T>, T> get value;
+  T getOrCrash() {
+    return value.fold((f) => throw UnexpectedValueError(f), id);
+  }
 
   @override
   bool operator ==(Object o) {
