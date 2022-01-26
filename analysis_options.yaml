@@ -9,6 +9,11 @@ analyzer:
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
+  errors:
+    missing_required_param: error
+    missing_return: error
+    must_be_immutable: error
+    sort_unnamed_constructors_first: ignore  
 
 linter:
   rules:
