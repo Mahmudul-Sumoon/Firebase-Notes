@@ -290,3 +290,23 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   }
 ```
 
+## Class 6: Injectable & very good analyzer
+>create injection file for provide application layer to presentation layer.
+```dart
+import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
+import 'package:notes_app/injection.config.dart';
+
+final GetIt getIt = GetIt.instance;
+@injectableInit
+void configureInjection(String env) {
+  $initGetIt(getIt, environment: env);
+}
+```
+- where getIt use as Provider to access objects.
+- configureInjection(Environment.prod) use in main method as providerScope.
+- @injectable use in application layer for bloc.dart file.
+- in infrastructure layer
+> - @module - dependency
+> - @lazySingleton - dependency
+> - @LazySingleton(as: IAuthFacade) - repository/facade
