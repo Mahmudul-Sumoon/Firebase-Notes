@@ -310,3 +310,48 @@ void configureInjection(String env) {
 > - @module - dependency
 > - @lazySingleton - dependency
 > - @LazySingleton(as: IAuthFacade) - repository/facade
+
+## Class 7: Design signIn form
+
+- ui design
+> as usual boring design 
+- bloc implement in presentation layer
+- 1. wrap signIn page with BlocProvider
+- 2. pass signInFormBloc by getIt
+```dart
+BlocProvider(
+        create: (context) => getIt<SignInFormBloc>(),
+        child: const SignInForm(),
+      ),
+```
+- wrap signInWidgetPage by BlocConsumer which provides two callback function 
+- 1. listener -> which listen the state changes at once
+- 2. builder -> which provides two properties. (1) _*State Values*_ and _*Events*_
+
+- _**1. State Values**_
+Like we use state values inside _Email_ TextField, we need the state of email characters to validate the text.
+
+```dart
+ validator: (value) => context
+                      .read<SignInFormBloc>()
+                      .state
+                      .emailAddress
+                      .value
+                      .fold(
+                        (l) => l.maybeMap(
+                          invalidEmail: (value) => 'invalid email',
+                          orElse: () => 'fsfsa',
+                        ),
+                        (r) => null,
+                      ),
+```
+
+- _**2. Events**_
+And we use the event to be fired by each onChange() values in the same Email TextField.
+
+```dart
+                  onChanged: (value) => BlocProvider.of<SignInFormBloc>(context)
+                      .add(SignInFormEvent.emailChanged(value)),
+```
+
+

@@ -846,7 +846,7 @@ class _$SignInFormStateTearOff {
       {required EmailAddress emailAddress,
       required Password password,
       required bool isSubmitting,
-      required bool showErrorMessage,
+      required AutovalidateMode showErrorMessage,
       required Option<Either<AuthFailure, Unit>> authFailureorSuccess}) {
     return _SignInFormState(
       emailAddress: emailAddress,
@@ -866,7 +866,7 @@ mixin _$SignInFormState {
   EmailAddress get emailAddress => throw _privateConstructorUsedError;
   Password get password => throw _privateConstructorUsedError;
   bool get isSubmitting => throw _privateConstructorUsedError;
-  bool get showErrorMessage => throw _privateConstructorUsedError;
+  AutovalidateMode get showErrorMessage => throw _privateConstructorUsedError;
   Option<Either<AuthFailure, Unit>> get authFailureorSuccess =>
       throw _privateConstructorUsedError;
 
@@ -884,7 +884,7 @@ abstract class $SignInFormStateCopyWith<$Res> {
       {EmailAddress emailAddress,
       Password password,
       bool isSubmitting,
-      bool showErrorMessage,
+      AutovalidateMode showErrorMessage,
       Option<Either<AuthFailure, Unit>> authFailureorSuccess});
 }
 
@@ -921,7 +921,7 @@ class _$SignInFormStateCopyWithImpl<$Res>
       showErrorMessage: showErrorMessage == freezed
           ? _value.showErrorMessage
           : showErrorMessage // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as AutovalidateMode,
       authFailureorSuccess: authFailureorSuccess == freezed
           ? _value.authFailureorSuccess
           : authFailureorSuccess // ignore: cast_nullable_to_non_nullable
@@ -941,7 +941,7 @@ abstract class _$SignInFormStateCopyWith<$Res>
       {EmailAddress emailAddress,
       Password password,
       bool isSubmitting,
-      bool showErrorMessage,
+      AutovalidateMode showErrorMessage,
       Option<Either<AuthFailure, Unit>> authFailureorSuccess});
 }
 
@@ -980,7 +980,7 @@ class __$SignInFormStateCopyWithImpl<$Res>
       showErrorMessage: showErrorMessage == freezed
           ? _value.showErrorMessage
           : showErrorMessage // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as AutovalidateMode,
       authFailureorSuccess: authFailureorSuccess == freezed
           ? _value.authFailureorSuccess
           : authFailureorSuccess // ignore: cast_nullable_to_non_nullable
@@ -1006,7 +1006,7 @@ class _$_SignInFormState implements _SignInFormState {
   @override
   final bool isSubmitting;
   @override
-  final bool showErrorMessage;
+  final AutovalidateMode showErrorMessage;
   @override
   final Option<Either<AuthFailure, Unit>> authFailureorSuccess;
 
@@ -1051,7 +1051,7 @@ abstract class _SignInFormState implements SignInFormState {
           {required EmailAddress emailAddress,
           required Password password,
           required bool isSubmitting,
-          required bool showErrorMessage,
+          required AutovalidateMode showErrorMessage,
           required Option<Either<AuthFailure, Unit>> authFailureorSuccess}) =
       _$_SignInFormState;
 
@@ -1062,7 +1062,7 @@ abstract class _SignInFormState implements SignInFormState {
   @override
   bool get isSubmitting;
   @override
-  bool get showErrorMessage;
+  AutovalidateMode get showErrorMessage;
   @override
   Option<Either<AuthFailure, Unit>> get authFailureorSuccess;
   @override
