@@ -353,5 +353,69 @@ And we use the event to be fired by each onChange() values in the same Email Tex
                   onChanged: (value) => BlocProvider.of<SignInFormBloc>(context)
                       .add(SignInFormEvent.emailChanged(value)),
 ```
+## Class 8: Getting the Signed-In User
 
+> create  getSingedInUser in authFacade
+```dart
+Future<Option<AsUser>> getSingedInUser();
+```
+- where AsUser is for providing unique id to user for get user from firebase by using uuid
+```dart
+@freezed
+abstract class AsUser with _$AsUser {
+  const factory AsUser({
+    required UniqueId id,
+  }) = _AsUser;
+}
+```
+- now there are two sates of getting singnedInUser
+```dart
+  const factory AuthState.authenticated() = Authenticated;
+  const factory AuthState.unAuthenticated() = UnAuthenticated;
+```
+- and two events can happen
+```dart
+  const factory AuthEvent.authCheckRequest() = AuthCheckRequest;
+  const factory AuthEvent.signedOut() = SignedOut;
+```
+- authCheckRequest check the two states for an user 
+> we create auth bloc for maintain those states and eventts
+```dart
+@injectable
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final IAuthFacade _authFacade;
+  AuthBloc(this._authFacade) : super(const AuthState.initial()) {
+    on<AuthCheckRequest>((event, emit) async {
+      final user = await _authFacade.getSingedInUser();
+      emit(
+        user.fold(
+          () => const AuthState.unAuthenticated(),
+          (a) => const AuthState.authenticated(),
+        ),
+      );
+    });
 
+    on<SignedOut>((event, emit) async {
+      await _authFacade.signOut();
+      emit(const AuthState.unAuthenticated());
+    });
+  }
+}
+```
+## Class 9: Navigation Based on Auth State
+
+> use auto_route for navigation
+```dart
+//decleare variable
+final _appRouter = AppRouter();
+// where we use blocprovider
+.router(
+        routerDelegate: _appRouter.delegate(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+//routing
+ AutoRouter.of(context).replace(const SignInPageRoute());
+// listener navigate when events happen
+ AutoRouter.of(context).replace(const NotesOverviewPageRoute());
+              BlocProvider.of<AuthBloc>(context).add(
+                const AuthEvent.authCheckRequest(),
+```
