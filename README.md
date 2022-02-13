@@ -453,3 +453,144 @@ final _appRouter = AppRouter();
  AutoRouter.of(context).replace(const NotesOverviewPageRoute());
  getIt<AuthBloc>()..add(const AuthEvent.authCheckRequest()),
 ```
+## Class 10: Note Value Failure
+> update Valuefailure for note and todo failurCase
+
+```dart
+  const factory ValueFailure.exceedingLength({
+    required T failedValue,
+    required int max,
+  }) = ExceedingLength<T>;
+  const factory ValueFailure.empty({
+    required T failedValue,
+  }) = Empty<T>;
+  const factory ValueFailure.multiLine({
+    required T failedValue,
+  }) = MultiLine<T>;
+  const factory ValueFailure.listTooLong({
+    required T failedValue,
+    required int max,
+  }) = ListTooLong<T>;
+```
+## Class 11: Note Value Objects
+
+> validate Valufailure for note and todo
+
+```dart
+Either<ValueFailure<String>, String> validateStringLength(
+  String input,
+  int max,
+) {
+  if (input.length <= max) {
+    return right(input);
+  } else {
+    return left(ValueFailure.exceedingLength(failedValue: input, max: max));
+  }
+}
+
+Either<ValueFailure<String>, String> validateEmptyString(
+  String input,
+) {
+  if (input.isNotEmpty) {
+    return right(input);
+  } else {
+    return left(ValueFailure.empty(failedValue: input));
+  }
+}
+
+Either<ValueFailure<String>, String> validateMultiLineString(
+  String input,
+) {
+  if (input.contains('\n')) {
+    return left(ValueFailure.multiLine(failedValue: input));
+  } else {
+    return right(input);
+  }
+}
+
+Either<ValueFailure<KtList<T>>, KtList<T>> validateListTooLong<T>(
+  KtList<T> input,
+  int max,
+) {
+  if (input.size <= max) {
+    return right(input);
+  } else {
+    return left(ValueFailure.listTooLong(failedValue: input, max: max));
+  }
+}
+```
+> design value object for note and todo
+
+```dart
+class NoteBody extends ValueObject<String> {
+  @override
+  final Either<ValueFailure<String>, String> value;
+  static const max = 3000;
+
+  factory NoteBody(String input) {
+    return NoteBody._(
+      validateStringLength(input, max).flatMap(validateEmptyString),
+    );
+  }
+  const NoteBody._(this.value);
+}
+
+class NoteColor extends ValueObject<Color> {
+  @override
+  final Either<ValueFailure<Color>, Color> value;
+  static const List<Color> predefinedColors = [
+    Color(0xfffafafa), // canvas
+    Color(0xfffa8072), // salmon
+    Color(0xfffedc56), // mustard
+    Color(0xffd0f0c0), // tea
+    Color(0xfffca3b7), // flamingo
+    Color(0xff997950), // tortilla
+    Color(0xfffffdd0), // cream
+  ];
+
+  factory NoteColor(Color input) {
+    return NoteColor._(
+      right(input.withOpacity(1)),
+    );
+  }
+  const NoteColor._(this.value);
+}
+
+///todo
+class TodoName extends ValueObject<String> {
+  @override
+  final Either<ValueFailure<String>, String> value;
+  static const max = 30;
+
+  factory TodoName(String input) {
+    return TodoName._(
+      validateStringLength(input, max)
+          .flatMap(validateEmptyString)
+          .flatMap(validateMultiLineString),
+    );
+  }
+  const TodoName._(this.value);
+}
+
+class TodoList<T> extends ValueObject<KtList<T>> {
+  @override
+  final Either<ValueFailure<KtList<T>>, KtList<T>> value;
+  static const max = 3;
+
+  factory TodoList(KtList<T> input) {
+    return TodoList._(
+      validateListTooLong(input, max),
+    );
+  }
+  const TodoList._(this.value);
+  int get length {
+    return value
+        .getOrElse(emptyList)
+        .size; //value.getOrElse(() => emptyList()).size;
+  }
+
+  bool get isFull {
+    return length == max;
+  }
+}
+```
