@@ -98,7 +98,8 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
       state.copyWith(
         isSubmitting: false,
         showErrorMessage: AutovalidateMode.always,
-        authFailureorSuccess: optionOf(successOrFailure),
+        authFailureorSuccess:
+            optionOf(successOrFailure), //same as some but with null checking
       ),
     );
   }

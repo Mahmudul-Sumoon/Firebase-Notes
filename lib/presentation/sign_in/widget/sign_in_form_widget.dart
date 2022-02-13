@@ -1,17 +1,18 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:notes_app/appliction/auth/auth/auth_bloc.dart';
 import 'package:notes_app/appliction/auth/sign_in_form/sign_in_form_bloc.dart';
-import 'package:notes_app/presentation/notes/notes_overview/notes_overview_page.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:notes_app/presentation/routes/router.gr.dart';
 
-class SignInForm extends StatelessWidget {
+class SignInForm extends HookWidget {
   const SignInForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isPasswordObscure = useState(true);
     return BlocConsumer<SignInFormBloc, SignInFormState>(
       listener: (context, state) {
         state.authFailureorSuccess.fold(
@@ -80,12 +81,22 @@ class SignInForm extends StatelessWidget {
                   height: 8,
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        isPasswordObscure.value = !isPasswordObscure.value;
+                      },
+                      icon: Icon(
+                        isPasswordObscure.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                    ),
+                    prefixIcon: const Icon(Icons.lock),
                     labelText: 'Password',
                   ),
                   autocorrect: false,
-                  obscureText: true,
+                  obscureText: isPasswordObscure.value,
                   onChanged: (value) => BlocProvider.of<SignInFormBloc>(context)
                       .add(SignInFormEvent.passwordChanged(value)),
                   validator: (value) =>
@@ -143,6 +154,10 @@ class SignInForm extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (state.isSubmitting) ...[
+                  const SizedBox(height: 8),
+                  const LinearProgressIndicator(),
+                ],
               ],
             ),
           ),

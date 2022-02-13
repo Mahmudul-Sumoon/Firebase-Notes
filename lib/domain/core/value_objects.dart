@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:notes_app/domain/core/errors.dart';
-
 import 'package:notes_app/domain/core/failures.dart';
 import 'package:uuid/uuid.dart';
 
