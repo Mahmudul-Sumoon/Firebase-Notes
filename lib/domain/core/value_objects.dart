@@ -16,6 +16,10 @@ abstract class ValueObject<T> {
     return value.isRight();
   }
 
+  Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
+    return value.fold(left, (r) => right(unit));
+  }
+
   @override
   // ignore: avoid_renaming_method_parameters
   bool operator ==(Object o) {

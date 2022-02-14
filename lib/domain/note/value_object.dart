@@ -66,13 +66,7 @@ class TodoList<T> extends ValueObject<KtList<T>> {
     );
   }
   const TodoList._(this.value);
-  int get length {
-    return value
-        .getOrElse(emptyList)
-        .size; //value.getOrElse(() => emptyList()).size;
-  }
+  int get length => value.getOrElse(emptyList).size;
 
-  bool get isFull {
-    return length == max;
-  }
+  bool get isFull => length == max;
 }

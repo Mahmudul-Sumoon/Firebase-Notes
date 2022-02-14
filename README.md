@@ -594,3 +594,157 @@ class TodoList<T> extends ValueObject<KtList<T>> {
   }
 }
 ```
+
+## Class 12: Note Entities
+
+> create todo model
+
+```dart
+abstract class TodoItem implements _$TodoItem {
+  const factory TodoItem({
+    required UniqueId id,
+    required TodoName name,
+    required bool isDone,
+  }) = _TodoItem;
+  const TodoItem._();
+  factory TodoItem.empty() => TodoItem(
+        id: UniqueId(),
+        name: TodoName(''),
+        isDone: false,
+      );
+  Option<ValueFailure<dynamic>> get failureValue {
+    return name.value.fold(some, (r) => none()); //some= (l)=>some(l)
+  }
+}
+
+```
+> create note model
+
+```dart
+@freezed
+abstract class Note implements _$Note {
+  const factory Note({
+    required UniqueId id,
+    required NoteBody body,
+    required NoteColor color,
+    required TodoList<TodoItem> todos,
+  }) = _Note;
+  const Note._();
+  factory Note.empty() => Note(
+        id: UniqueId(),
+        body: NoteBody(''),
+        color: NoteColor(NoteColor.predefinedColors[0]),
+        todos: TodoList(emptyList()),
+      );
+
+  Option<ValueFailure<dynamic>> get failureValue {
+    return body.failureOrUnit
+        .andThen<Unit>(todos.failureOrUnit)
+        .andThen<Unit>(
+          todos
+              .getOrCrash()
+              .map((item) => item.failureValue)
+              .filter((item) => item.isSome())
+              .getOrElse(0, (_) => none())
+              //none mane tik ache tai left e right
+              .fold(() => right(unit), left),
+        )
+        .fold(some, (_) => none());
+  }
+}
+```
+- here failureOrUnit are in core/valueObject
+```dart
+  Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
+    return value.fold(left, (r) => right(unit));
+  }
+```
+
+
+## Class 13: Data Transfer Objects
+
+> create note repository facade
+```dart
+abstract class INoteRepository {
+  Stream<Either<NoteFailure, KtList<Note>>> watchAll();
+  Stream<Either<NoteFailure, KtList<Note>>> watchUncompleted();
+  Future<Either<NoteFailure, Unit>> create(Note note);
+  Future<Either<NoteFailure, Unit>> update(Note note);
+  Future<Either<NoteFailure, Unit>> delete(Note note);
+}
+```
+- NoteFailure is tha failure for noteRepo
+
+```dart
+@freezed
+abstract class NoteFailure with _$NoteFailure {
+  const factory NoteFailure.unexpected() = _Unexpected;
+}
+```
+>Now create the dto(data transfer object)
+
+- which is for transmission data between firebase and client
+
+```dart
+@freezed
+abstract class NotesDto implements _$NotesDto {
+  const NotesDto._();
+  const factory NotesDto({
+    // ignore: invalid_annotation_target
+    @JsonKey(ignore: true) String? id,
+    required String? body,
+    required int? color,
+    required List<TodoItemDto>? todos,
+    @ServerTimeStampConverter() required FieldValue? serverTimeStamp,
+  }) = _NotesDto;
+  //আনার ক্ষেত্রে
+  factory NotesDto.fromDomain(Note note) {
+    return NotesDto(
+      id: note.id.getOrCrash(),
+      body: note.body.getOrCrash(),
+      color: note.color.getOrCrash().value,
+      serverTimeStamp: FieldValue.serverTimestamp(),
+      //modifiy .g for todos 'todos': instance.todos?.map((e) => e.toJson()).toList(),
+      todos: note.todos
+          .getOrCrash()
+          .map(
+            TodoItemDto.fromDomain,
+          )
+          .asList(),
+    );
+  }
+  //পাঠানোর ক্ষেত্রে
+  Note toDomain() {
+    return Note(
+      id: UniqueId.fromUniqueIdString(id!),
+      body: NoteBody(body!),
+      color: NoteColor(Color(color!)),
+      todos: TodoList(
+        todos!.map((todoItemDto) => todoItemDto.toDomain()).toImmutableList(),
+      ),
+    );
+  }
+
+  factory NotesDto.fromJson(Map<String, dynamic> json) =>
+      _$NotesDtoFromJson(json);
+  factory NotesDto.fromFirestore(DocumentSnapshot doc) {
+    // final data = Map<String, dynamic>.from(doc.data()! as Map<String, dynamic>);
+    // ignore: cast_nullable_to_non_nullable
+    return NotesDto.fromJson(doc.data() as Map<String, dynamic>)
+        .copyWith(id: doc.id);
+  }
+}
+```
+- ServerTimeStampConverter() 
+```dart
+class ServerTimeStampConverter implements JsonConverter<FieldValue?, Object?> {
+  const ServerTimeStampConverter();
+  @override
+  FieldValue? fromJson(Object? json) {
+    return FieldValue.serverTimestamp();
+  }
+
+  @override
+  Object? toJson(FieldValue? fieldValue) => fieldValue;
+}
+```
