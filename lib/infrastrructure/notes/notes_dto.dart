@@ -27,7 +27,7 @@ abstract class NotesDto implements _$NotesDto {
     required List<TodoItemDto>? todos,
     @ServerTimeStampConverter() required FieldValue? serverTimeStamp,
   }) = _NotesDto;
-  //আনার ক্ষেত্রে
+  //পাঠানোর ক্ষেত্রে
   factory NotesDto.fromDomain(Note note) {
     return NotesDto(
       id: note.id.getOrCrash(),
@@ -43,7 +43,7 @@ abstract class NotesDto implements _$NotesDto {
           .asList(),
     );
   }
-  //পাঠানোর ক্ষেত্রে
+  //আনার ক্ষেত্রে
   Note toDomain() {
     return Note(
       id: UniqueId.fromUniqueIdString(id!),
@@ -67,6 +67,7 @@ abstract class NotesDto implements _$NotesDto {
 
 @freezed
 abstract class TodoItemDto implements _$TodoItemDto {
+  const TodoItemDto._();
   const factory TodoItemDto({
     required String? id,
     required String? name,
@@ -81,8 +82,8 @@ abstract class TodoItemDto implements _$TodoItemDto {
   }
   TodoItem toDomain() {
     return TodoItem(
-      name: TodoName(name!),
       id: UniqueId.fromUniqueIdString(id!),
+      name: TodoName(name!),
       isDone: done!,
     );
   }

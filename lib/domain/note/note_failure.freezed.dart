@@ -21,6 +21,14 @@ class _$NoteFailureTearOff {
   _Unexpected unexpected() {
     return const _Unexpected();
   }
+
+  _PermissionError permissionError() {
+    return const _PermissionError();
+  }
+
+  _UnableToUpdate unableToUpdate() {
+    return const _UnableToUpdate();
+  }
 }
 
 /// @nodoc
@@ -31,32 +39,44 @@ mixin _$NoteFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unexpected,
+    required TResult Function() permissionError,
+    required TResult Function() unableToUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unexpected,
+    TResult Function()? permissionError,
+    TResult Function()? unableToUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unexpected,
+    TResult Function()? permissionError,
+    TResult Function()? unableToUpdate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Unexpected value) unexpected,
+    required TResult Function(_PermissionError value) permissionError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Unexpected value)? unexpected,
+    TResult Function(_PermissionError value)? permissionError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Unexpected value)? unexpected,
+    TResult Function(_PermissionError value)? permissionError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -119,6 +139,8 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unexpected,
+    required TResult Function() permissionError,
+    required TResult Function() unableToUpdate,
   }) {
     return unexpected();
   }
@@ -127,6 +149,8 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? unexpected,
+    TResult Function()? permissionError,
+    TResult Function()? unableToUpdate,
   }) {
     return unexpected?.call();
   }
@@ -135,6 +159,8 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unexpected,
+    TResult Function()? permissionError,
+    TResult Function()? unableToUpdate,
     required TResult orElse(),
   }) {
     if (unexpected != null) {
@@ -147,6 +173,8 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Unexpected value) unexpected,
+    required TResult Function(_PermissionError value) permissionError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
   }) {
     return unexpected(this);
   }
@@ -155,6 +183,8 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Unexpected value)? unexpected,
+    TResult Function(_PermissionError value)? permissionError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
   }) {
     return unexpected?.call(this);
   }
@@ -163,6 +193,8 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Unexpected value)? unexpected,
+    TResult Function(_PermissionError value)? permissionError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
     required TResult orElse(),
   }) {
     if (unexpected != null) {
@@ -174,4 +206,226 @@ class _$_Unexpected implements _Unexpected {
 
 abstract class _Unexpected implements NoteFailure {
   const factory _Unexpected() = _$_Unexpected;
+}
+
+/// @nodoc
+abstract class _$PermissionErrorCopyWith<$Res> {
+  factory _$PermissionErrorCopyWith(
+          _PermissionError value, $Res Function(_PermissionError) then) =
+      __$PermissionErrorCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$PermissionErrorCopyWithImpl<$Res>
+    extends _$NoteFailureCopyWithImpl<$Res>
+    implements _$PermissionErrorCopyWith<$Res> {
+  __$PermissionErrorCopyWithImpl(
+      _PermissionError _value, $Res Function(_PermissionError) _then)
+      : super(_value, (v) => _then(v as _PermissionError));
+
+  @override
+  _PermissionError get _value => super._value as _PermissionError;
+}
+
+/// @nodoc
+
+class _$_PermissionError implements _PermissionError {
+  const _$_PermissionError();
+
+  @override
+  String toString() {
+    return 'NoteFailure.permissionError()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _PermissionError);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unexpected,
+    required TResult Function() permissionError,
+    required TResult Function() unableToUpdate,
+  }) {
+    return permissionError();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? unexpected,
+    TResult Function()? permissionError,
+    TResult Function()? unableToUpdate,
+  }) {
+    return permissionError?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unexpected,
+    TResult Function()? permissionError,
+    TResult Function()? unableToUpdate,
+    required TResult orElse(),
+  }) {
+    if (permissionError != null) {
+      return permissionError();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Unexpected value) unexpected,
+    required TResult Function(_PermissionError value) permissionError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
+  }) {
+    return permissionError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Unexpected value)? unexpected,
+    TResult Function(_PermissionError value)? permissionError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+  }) {
+    return permissionError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Unexpected value)? unexpected,
+    TResult Function(_PermissionError value)? permissionError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+    required TResult orElse(),
+  }) {
+    if (permissionError != null) {
+      return permissionError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PermissionError implements NoteFailure {
+  const factory _PermissionError() = _$_PermissionError;
+}
+
+/// @nodoc
+abstract class _$UnableToUpdateCopyWith<$Res> {
+  factory _$UnableToUpdateCopyWith(
+          _UnableToUpdate value, $Res Function(_UnableToUpdate) then) =
+      __$UnableToUpdateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$UnableToUpdateCopyWithImpl<$Res>
+    extends _$NoteFailureCopyWithImpl<$Res>
+    implements _$UnableToUpdateCopyWith<$Res> {
+  __$UnableToUpdateCopyWithImpl(
+      _UnableToUpdate _value, $Res Function(_UnableToUpdate) _then)
+      : super(_value, (v) => _then(v as _UnableToUpdate));
+
+  @override
+  _UnableToUpdate get _value => super._value as _UnableToUpdate;
+}
+
+/// @nodoc
+
+class _$_UnableToUpdate implements _UnableToUpdate {
+  const _$_UnableToUpdate();
+
+  @override
+  String toString() {
+    return 'NoteFailure.unableToUpdate()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _UnableToUpdate);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unexpected,
+    required TResult Function() permissionError,
+    required TResult Function() unableToUpdate,
+  }) {
+    return unableToUpdate();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? unexpected,
+    TResult Function()? permissionError,
+    TResult Function()? unableToUpdate,
+  }) {
+    return unableToUpdate?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unexpected,
+    TResult Function()? permissionError,
+    TResult Function()? unableToUpdate,
+    required TResult orElse(),
+  }) {
+    if (unableToUpdate != null) {
+      return unableToUpdate();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Unexpected value) unexpected,
+    required TResult Function(_PermissionError value) permissionError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
+  }) {
+    return unableToUpdate(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Unexpected value)? unexpected,
+    TResult Function(_PermissionError value)? permissionError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+  }) {
+    return unableToUpdate?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Unexpected value)? unexpected,
+    TResult Function(_PermissionError value)? permissionError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+    required TResult orElse(),
+  }) {
+    if (unableToUpdate != null) {
+      return unableToUpdate(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UnableToUpdate implements NoteFailure {
+  const factory _UnableToUpdate() = _$_UnableToUpdate;
 }

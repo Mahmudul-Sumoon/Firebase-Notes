@@ -40,7 +40,8 @@ class UniqueId extends ValueObject<String> {
   @override
   factory UniqueId() {
     return UniqueId._(
-      right(const Uuid().v1()),
+      // ignore: prefer_const_constructors
+      right(Uuid().v1()),
     );
   }
   factory UniqueId.fromUniqueIdString(String uniqueId) {

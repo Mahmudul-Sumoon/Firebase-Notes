@@ -25,11 +25,12 @@ dependencies:
   get_it: ^7.2.0
   injectable: ^1.5.3
   another_flushbar: ^1.10.28
-  uuid: ^3.0.5
+  uuid: ^3.0.4
   auto_route: ^3.2.2
   flutter_hooks: ^0.18.2+1
   kt_dart: ^0.10.0
   json_annotation: ^4.4.0
+  rxdart: ^0.27.3
 
 
 dev_dependencies:

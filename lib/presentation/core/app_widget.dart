@@ -19,10 +19,14 @@ class AppWidget extends StatelessWidget {
       ],
       //create: (context) => SubjectBloc(),
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         routerDelegate: _appRouter.delegate(),
         routeInformationParser: _appRouter.defaultRouteParser(),
         title: 'Notes App',
         theme: ThemeData.light().copyWith(
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.blue.shade900,
+          ),
           primaryColor: Colors.green[800],
           inputDecorationTheme: InputDecorationTheme(
             border: OutlineInputBorder(
