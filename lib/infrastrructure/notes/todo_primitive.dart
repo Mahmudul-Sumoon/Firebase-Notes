@@ -1,8 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kt_dart/collection.dart';
 import 'package:notes_app/domain/core/value_objects.dart';
 import 'package:notes_app/domain/note/todo_item.dart';
 import 'package:notes_app/domain/note/value_object.dart';
 part 'todo_primitive.freezed.dart';
+
+class FormTodo extends ValueNotifier<KtList<TodoItemPrimitive>> {
+  FormTodo() : super(emptyList<TodoItemPrimitive>());
+}
 
 @freezed
 abstract class TodoItemPrimitive implements _$TodoItemPrimitive {

@@ -57,7 +57,7 @@ class FirebaseAuthFacade implements IAuthFacade {
           .signInWithCredential(authCredential)
           .then((r) => right(unit));
     } catch (e) {
-      //print(e);
+      // print('12' + e.toString());
       return left(const AuthFailure.serverError());
     }
   }

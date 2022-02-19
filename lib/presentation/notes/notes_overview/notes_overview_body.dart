@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/appliction/note_watcher/note_watcher_bloc.dart';
-import 'package:notes_app/domain/note/note_failure.dart';
 import 'package:notes_app/presentation/notes/notes_overview/display_failure.dart';
 import 'package:notes_app/presentation/notes/notes_overview/error_note_body.dart';
 import 'package:notes_app/presentation/notes/notes_overview/note_card_ui.dart';

@@ -17,7 +17,7 @@ void main() async {
       //   storageBucket: "notes-app-8ab82.appspot.com",
       //   messagingSenderId: "575672738868",
       //   appId: "1:575672738868:web:f72474d5865dc617755661",
-      // ),
+      // ),S
       );
   configureInjection(Environment.prod);
   runApp(AppWidget());

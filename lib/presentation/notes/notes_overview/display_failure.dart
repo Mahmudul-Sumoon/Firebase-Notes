@@ -13,7 +13,7 @@ class NoteFailure1 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              '🐱‍👤',
+              '🐱',
               style: TextStyle(fontSize: 100),
             ),
             const SizedBox(height: 4),

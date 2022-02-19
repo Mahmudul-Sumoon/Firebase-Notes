@@ -31,6 +31,9 @@ dependencies:
   kt_dart: ^0.10.0
   json_annotation: ^4.4.0
   rxdart: ^0.27.3
+  provider: ^6.0.2
+  flutter_slidable: ^1.2.0
+  implicitly_animated_reorderable_list: ^0.4.2
 
 
 dev_dependencies:

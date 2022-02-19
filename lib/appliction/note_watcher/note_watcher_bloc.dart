@@ -34,5 +34,14 @@ class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
         ),
       );
     });
+    on<_UnCompletedWatch>((event, emit) async {
+      await _noteStream?.cancel();
+      emit(const NoteWatcherState.loading());
+
+      _noteStream = _noteRepository.watchUncompleted().listen(
+            (failureOrNotes) =>
+                add(NoteWatcherEvent.noteWatchAll(failureOrNotes)),
+          );
+    });
   }
 }

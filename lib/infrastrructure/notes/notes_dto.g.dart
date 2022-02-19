@@ -29,12 +29,12 @@ _$_TodoItemDto _$$_TodoItemDtoFromJson(Map<String, dynamic> json) =>
     _$_TodoItemDto(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      done: json['done'] as bool?,
+      done: json['isDone'] as bool?,
     );
 
 Map<String, dynamic> _$$_TodoItemDtoToJson(_$_TodoItemDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'done': instance.done,
+      'isDone': instance.done,
     };

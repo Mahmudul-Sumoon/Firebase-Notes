@@ -8,7 +8,7 @@ import 'package:notes_app/domain/core/value_validators.dart';
 class NoteBody extends ValueObject<String> {
   @override
   final Either<ValueFailure<String>, String> value;
-  static const max = 3000;
+  static const max = 1000;
 
   factory NoteBody(String input) {
     return NoteBody._(
