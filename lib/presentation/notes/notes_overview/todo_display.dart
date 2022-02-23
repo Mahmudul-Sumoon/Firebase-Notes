@@ -13,14 +13,17 @@ class NoteDisplay extends StatelessWidget {
         if (todo.isDone)
           Icon(
             Icons.check_box,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Colors.grey.shade800,
           ),
         if (!todo.isDone)
           Icon(
             Icons.check_box_outline_blank,
-            color: Theme.of(context).disabledColor,
+            color: Colors.grey.shade700,
           ),
-        Text(todo.name.getOrCrash()),
+        Text(
+          todo.name.getOrCrash(),
+          style: const TextStyle(color: Colors.black),
+        ),
       ],
     );
   }

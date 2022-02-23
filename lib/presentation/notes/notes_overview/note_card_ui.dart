@@ -31,7 +31,7 @@ class NoteCard extends StatelessWidget {
             children: [
               Text(
                 note.body.getOrCrash(),
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18, color: Colors.black),
               ),
               if (note.todos.length > 0) ...[
                 const SizedBox(

@@ -153,14 +153,18 @@ class TodoTile extends HookWidget {
                     .fold(
                       (f) => null,
                       (todoList) => todoList[index].name.value.fold(
-                            (l) => l.maybeMap(
-                              empty: (value) => 'Cannot be Empty',
-                              exceedingLength: (value) => 'Too long',
-                              multiLine: (value) => 'Has to be Single line',
-                              orElse: () {},
-                            ),
-                            (r) {},
-                          ),
+                        (l) => l.maybeMap(
+                          empty: (value) => 'Cannot be Empty',
+                          exceedingLength: (value) => 'Too long',
+                          multiLine: (value) => 'Has to be Single line',
+                          orElse: () {
+                            return null;
+                          },
+                        ),
+                        (r) {
+                          return null;
+                        },
+                      ),
                     ),
               ),
             ),

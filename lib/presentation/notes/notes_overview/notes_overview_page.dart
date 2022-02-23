@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/appliction/auth/auth/auth_bloc.dart';
 import 'package:notes_app/appliction/auth/note_actor_bloc/note_actor_bloc_bloc.dart';
 import 'package:notes_app/appliction/note_watcher/note_watcher_bloc.dart';
+import 'package:notes_app/appliction/theme/theme_cubit.dart';
 import 'package:notes_app/injection.dart';
 import 'package:notes_app/presentation/notes/notes_overview/notes_overview_body.dart';
 import 'package:notes_app/presentation/notes/notes_overview/uncomplete_note.dart';
@@ -65,8 +66,19 @@ class NotesOverviewPage extends StatelessWidget {
               },
               icon: const Icon(Icons.exit_to_app),
             ),
-            actions: const [
-              UncompleteNote(),
+            actions: [
+              const UncompleteNote(),
+              BlocBuilder<ThemeCubit, bool>(
+                builder: (context, state) {
+                  return IconButton(
+                    onPressed: () {
+                      BlocProvider.of<ThemeCubit>(context)
+                          .toggleTheme(value: !state);
+                    },
+                    icon: Icon(state ? Icons.brightness_7 : Icons.add),
+                  );
+                },
+              ),
             ],
           ),
           body: const NotesOverviewBody(),

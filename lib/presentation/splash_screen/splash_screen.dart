@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/appliction/auth/auth/auth_bloc.dart';
+import 'package:notes_app/presentation/core/connection_disable.dart';
 import 'package:notes_app/presentation/routes/router.gr.dart';
 
 class SplashPage extends StatelessWidget {
@@ -24,7 +25,7 @@ class SplashPage extends StatelessWidget {
       },
       child: const Scaffold(
         body: Center(
-          child: CircularProgressIndicator(),
+          child: ConnectionDisablePage(),
         ),
       ),
     );

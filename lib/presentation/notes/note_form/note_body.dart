@@ -18,18 +18,23 @@ class BodyField extends HookWidget {
       buildWhen: (p, c) =>
           p.isEditing != c.isEditing || p.note.color != c.note.color,
       builder: (context, state) {
+        final color = BlocProvider.of<NoteFormBlocBloc>(context)
+            .state
+            .note
+            .color
+            .value
+            .fold((l) {}, (r) => r);
         return Padding(
           padding: const EdgeInsets.all(10),
           child: TextFormField(
             controller: textEditingController,
+            style: TextStyle(
+              color:
+                  color!.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+            ),
             // ignore: require_trailing_commas
             decoration: InputDecoration(
-              fillColor: BlocProvider.of<NoteFormBlocBloc>(context)
-                  .state
-                  .note
-                  .color
-                  .value
-                  .fold((l) {}, (r) => r),
+              fillColor: color,
               filled: true,
               labelText: 'Note',
               //counterText: '',
@@ -47,14 +52,18 @@ class BodyField extends HookWidget {
                 .body
                 .value
                 .fold(
-                  (l) => l.maybeMap(
-                    empty: (value) => 'Cannot be Empty',
-                    exceedingLength: (value) =>
-                        'Excedding Length, max: ${value.max}',
-                    orElse: () {},
-                  ),
-                  (r) {},
-                ),
+              (l) => l.maybeMap(
+                empty: (value) => 'Cannot be Empty',
+                exceedingLength: (value) =>
+                    'Excedding Length, max: ${value.max}',
+                orElse: () {
+                  return null;
+                },
+              ),
+              (r) {
+                return null;
+              },
+            ),
           ),
         );
       },
