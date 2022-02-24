@@ -7,13 +7,14 @@ import 'package:injectable/injectable.dart';
 @injectable
 class ConnectionCubit extends Cubit<bool> {
   final Connectivity connectivity;
-  late StreamSubscription connectivityStreamSubscription;
+   StreamSubscription? connectivityStreamSubscription;
 
   ConnectionCubit({required this.connectivity}) : super(false) {
     monitorInternetConnection();
   }
 
   StreamSubscription<ConnectivityResult> monitorInternetConnection() {
+    connectivity.checkConnectivity();
     return connectivityStreamSubscription =
         connectivity.onConnectivityChanged.listen((connectivityResult) {
       if (connectivityResult == ConnectivityResult.none) {
@@ -26,7 +27,7 @@ class ConnectionCubit extends Cubit<bool> {
 
   @override
   Future<void> close() {
-    connectivityStreamSubscription.cancel();
+    connectivityStreamSubscription?.cancel();
     return super.close();
   }
 }

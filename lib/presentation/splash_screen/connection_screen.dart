@@ -10,13 +10,13 @@ class ConnectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ConnectionCubit, bool>(
+    return BlocConsumer<ConnectionCubit, bool>(
       listener: (context, state) {
         state
             ? context.router.replace(const SplashPageRoute())
-            : context.router.replace(const ConnectionDisablePageRoute());
+            : const Text('sdbasgjdasgdas');
       },
-      child: const Scaffold(
+      builder: (context, state) => const Scaffold(
         body: Center(
           child: ConnectionDisablePage(),
         ),
